@@ -3,53 +3,59 @@ using System.Linq;
 
 class Program
 {
-
-    class User
+    abstract class Person
     {
         public string firstName;
         public string lastName;
-        public string gender;
         public int age;
-        public double weight; //kgs
-        public double height; //cm
-        public int activityLevel; //1-5
+        public double weight;
+        public double height;
+        public int activityLevel;
 
-        public User(string firstName, string lastName, string gender, int age, double weight, double height, int activityLevel)
+        public Person(string firstName, string lastName, int age, double weight, double height, int activityLevel)
         {
             this.firstName = firstName;
             this.lastName = lastName;
-            this.gender = gender;
             this.age = age;
             this.weight = weight;
             this.height = height;
             this.activityLevel = activityLevel;
         }
 
+        public abstract double CaloricCalculator();
+
+        public abstract double CaloricCalculator(double bodyFatPercentage);
     }
 
-    static double CaloricCalculator(User user)
+    class MaleUser : Person
     {
-        double maintenance = 0.0;
-        if (user.gender.Equals("Male") || user.gender.Equals("male"))
+        public MaleUser(string firstName, string lastName, int age, double weight, double height, int activityLevel)
+            : base(firstName, lastName, age, weight, height, activityLevel)
         {
-            double BMR = (10 * user.weight) + (6.25 * user.height) - (5 * user.age) + 5;
-            if (user.activityLevel == 1)
+        }
+
+        public override double CaloricCalculator()
+        {
+            double BMR = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+            double maintenance = 0.0;
+
+            if (activityLevel == 1)
             {
                 maintenance = BMR * 1.2;
             }
-            else if (user.activityLevel == 2)
+            else if (activityLevel == 2)
             {
                 maintenance = BMR * 1.375;
             }
-            else if (user.activityLevel == 3)
+            else if (activityLevel == 3)
             {
                 maintenance = BMR * 1.55;
             }
-            else if (user.activityLevel == 4)
+            else if (activityLevel == 4)
             {
                 maintenance = BMR * 1.725;
             }
-            else if (user.activityLevel == 5)
+            else if (activityLevel == 5)
             {
                 maintenance = BMR * 1.9;
             }
@@ -57,27 +63,33 @@ class Program
             {
                 Console.WriteLine("Invalid activity level.");
             }
+
+            return maintenance;
         }
-        else if (user.gender.Equals("Female") || user.gender.Equals("female"))
+
+        public override double CaloricCalculator(double bodyFatPercentage)
         {
-            double BMR = (10 * user.weight) + (6.25 * user.height) - (5 * user.age) -161;
-            if (user.activityLevel == 1)
+            double leanBodyMass = weight * (1 - bodyFatPercentage / 100);
+            double BMR = (21.6 * leanBodyMass) + 370;
+            double maintenance = 0.0;
+
+            if (activityLevel == 1)
             {
                 maintenance = BMR * 1.2;
             }
-            else if (user.activityLevel == 2)
+            else if (activityLevel == 2)
             {
                 maintenance = BMR * 1.375;
             }
-            else if (user.activityLevel == 3)
+            else if (activityLevel == 3)
             {
                 maintenance = BMR * 1.55;
             }
-            else if (user.activityLevel == 4)
+            else if (activityLevel == 4)
             {
                 maintenance = BMR * 1.725;
             }
-            else if (user.activityLevel == 5)
+            else if (activityLevel == 5)
             {
                 maintenance = BMR * 1.9;
             }
@@ -85,7 +97,83 @@ class Program
             {
                 Console.WriteLine("Invalid activity level.");
             }
+
+            return maintenance;
         }
-        return maintenance;
+    }
+
+    class FemaleUser : Person
+    {
+        public FemaleUser(string firstName, string lastName, int age, double weight, double height, int activityLevel)
+            : base(firstName, lastName, age, weight, height, activityLevel)
+        {
+        }
+
+        public override double CaloricCalculator()
+        {
+            double BMR = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+            double maintenance = 0.0;
+
+            if (activityLevel == 1)
+            {
+                maintenance = BMR * 1.2;
+            }
+            else if (activityLevel == 2)
+            {
+                maintenance = BMR * 1.375;
+            }
+            else if (activityLevel == 3)
+            {
+                maintenance = BMR * 1.55;
+            }
+            else if (activityLevel == 4)
+            {
+                maintenance = BMR * 1.725;
+            }
+            else if (activityLevel == 5)
+            {
+                maintenance = BMR * 1.9;
+            }
+            else
+            {
+                Console.WriteLine("Invalid activity level.");
+            }
+
+            return maintenance;
+        }
+
+        public override double CaloricCalculator(double bodyFatPercentage)
+        {
+            double leanBodyMass = weight * (1 - bodyFatPercentage / 100);
+            double BMR = (21.6 * leanBodyMass) + 370;
+            double maintenance = 0.0;
+
+            if (activityLevel == 1)
+            {
+                maintenance = BMR * 1.2;
+            }
+            else if (activityLevel == 2)
+            {
+                maintenance = BMR * 1.375;
+            }
+            else if (activityLevel == 3)
+            {
+                maintenance = BMR * 1.55;
+            }
+            else if (activityLevel == 4)
+            {
+                maintenance = BMR * 1.725;
+            }
+            else if (activityLevel == 5)
+            {
+                maintenance = BMR * 1.9;
+            }
+            else
+            {
+                Console.WriteLine("Invalid activity level.");
+            }
+
+            return maintenance;
+        }
     }
 }
