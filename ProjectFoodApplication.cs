@@ -1,9 +1,16 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 class Program
 {
-    abstract class Person
+    interface ICalorieCalculator
+    {
+        double CaloricCalculator();
+        double CaloricCalculator(double bodyFatPercentage);
+    }
+
+    abstract class Person : ICalorieCalculator
     {
         public string firstName;
         public string lastName;
@@ -23,7 +30,6 @@ class Program
         }
 
         public abstract double CaloricCalculator();
-
         public abstract double CaloricCalculator(double bodyFatPercentage);
     }
 
@@ -176,4 +182,37 @@ class Program
             return maintenance;
         }
     }
+
+    sealed class CalorieGoal
+    {
+        public string Name;
+        public double AdjustmentPercentage;
+        public CalorieGoal(string name, double adjustmentPercentage)
+        {
+            Name = name;
+            AdjustmentPercentage = adjustmentPercentage;
+        }
+
+        public double CalculateCalories(double maintenanceCalories)
+        {
+            return maintenanceCalories * (1 + AdjustmentPercentage);
+        }
+    }
+
+    delegate double CalorieCalculation();
+
+    static void Main()
+    {
+        List<CalorieGoal> goals = new List<CalorieGoal> {new CalorieGoal("Extreme Weight Loss", -0.25), new CalorieGoal("Mild Weight Loss", -0.15), new CalorieGoal("Slight Weight Loss", -0.10), new CalorieGoal("Maintenance", 0.00), new CalorieGoal("Slight Weight Gain", 0.10), new CalorieGoal("Mild Weight Gain", 0.15), new CalorieGoal("Extreme Weight Gain", 0.25)};
+        Person user = new MaleUser("John", "Doe", 25, 80, 180, 3);
+        CalorieCalculation calculation = user.CaloricCalculator;
+        double maintenanceCalories = calculation();
+        string selectedGoal = "Slight Weight Loss";
+        CalorieGoal goal = goals.First(g => g.Name == selectedGoal);
+        double recommendedCalories = goal.CalculateCalories(maintenanceCalories);
+        Console.WriteLine("Maintenance Calories: " + Math.Round(maintenanceCalories));
+        Console.WriteLine("Goal: " + goal.Name);
+        Console.WriteLine("Recommended Calories: " + Math.Round(recommendedCalories));
+    }
 }
+```
