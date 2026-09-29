@@ -203,7 +203,7 @@ class Program
 
     static void Main()
     {
-        List<CalorieGoal> goals = new List<CalorieGoal> {new CalorieGoal("Extreme Weight Loss", -0.25), new CalorieGoal("Mild Weight Loss", -0.15), new CalorieGoal("Slight Weight Loss", -0.10), new CalorieGoal("Maintenance", 0.00), new CalorieGoal("Slight Weight Gain", 0.10), new CalorieGoal("Mild Weight Gain", 0.15), new CalorieGoal("Extreme Weight Gain", 0.25)};
+        List<CalorieGoal> goals = new List<CalorieGoal> { new CalorieGoal("Extreme Weight Loss", -0.25), new CalorieGoal("Mild Weight Loss", -0.15), new CalorieGoal("Slight Weight Loss", -0.10), new CalorieGoal("Maintenance", 0.00), new CalorieGoal("Slight Weight Gain", 0.10), new CalorieGoal("Mild Weight Gain", 0.15), new CalorieGoal("Extreme Weight Gain", 0.25) };
         Person user = new MaleUser("John", "Doe", 25, 80, 180, 3);
         CalorieCalculation calculation = user.CaloricCalculator;
         double maintenanceCalories = calculation();
@@ -215,4 +215,3 @@ class Program
         Console.WriteLine("Recommended Calories: " + Math.Round(recommendedCalories));
     }
 }
-```
